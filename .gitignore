@@ -52,3 +52,9 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+/.vs/DungeonCrawlerG2/FileContentIndex/a9eb2ff9-7078-4dda-a6b5-572da0bc24be.vsidx
+/.vs/DungeonCrawlerG2/FileContentIndex/89d01d9c-6ce9-4485-a57d-c1416f63dbc2.vsidx
+/.vs/DungeonCrawlerG2/FileContentIndex/c2ca3303-dceb-4a89-b492-b5179829c52a.vsidx
+/.vs/ProjectEvaluation/dungeoncrawlerg2.metadata.v9.bin
+/.vs/ProjectEvaluation/dungeoncrawlerg2.projects.v9.bin
+/.vs/ProjectEvaluation/dungeoncrawlerg2.strings.v9.bin
