@@ -58,11 +58,4 @@ nunit-*.xml
 /.vs/ProjectEvaluation/dungeoncrawlerg2.metadata.v9.bin
 /.vs/ProjectEvaluation/dungeoncrawlerg2.projects.v9.bin
 /.vs/ProjectEvaluation/dungeoncrawlerg2.strings.v9.bin
-*.db
-*.db-shm
-/.vs/DungeonCrawlerG2/CopilotIndices/17.14.1577.30250/CodeChunks.db-wal
-/.vs/DungeonCrawlerG2/CopilotIndices/17.14.1577.30250/SemanticSymbols.db-wal
-/.vs/DungeonCrawlerG2/FileContentIndex/9e7be6e9-a652-4dff-ad5a-819b4be09747.vsidx
-/.vs/DungeonCrawlerG2/v17/.futdcache.v2
-/.vs/DungeonCrawlerG2/v17/DocumentLayout.backup.json
-/.vs/VSWorkspaceState.json
+.vs/
