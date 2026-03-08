@@ -30,6 +30,61 @@ namespace DungeonCrawlerG2
                 }
             }
         }
+
+        public void DisplayMap()
+        {
+            Console.WriteLine("\n╔═══════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                        DUNGEON CRAWLER MAP                            ║");
+            Console.WriteLine("╚═══════════════════════════════════════════════════════════════════════╝\n");
+
+            for (int i = 0; i < 3; i++)
+            {
+                // Top border of rooms
+                for (int j = 0; j < 3; j++)
+                {
+                    Console.Write("┌───────────────────┐");
+                    if (j < 2) Console.Write("─");
+                }
+                Console.WriteLine();
+
+                // Room names (centered)
+                for (int j = 0; j < 3; j++)
+                {
+                    string roomName = Rooms[i, j].Name;
+                    int padding = (19 - roomName.Length) / 2;
+                    Console.Write($"│{new string(' ', padding)}{roomName}{new string(' ', 19 - padding - roomName.Length)}│");
+                    
+                    // Show horizontal connection to the right
+                    if (j < 2)
+                    {
+                        Console.Write("═");
+                    }
+                }
+                Console.WriteLine();
+
+                // Bottom border with vertical connections
+                for (int j = 0; j < 3; j++)
+                {
+                    Console.Write("└───────────────────┘");
+                    if (j < 2) Console.Write("─");
+                }
+                Console.WriteLine();
+
+                // Show vertical connections to rooms below
+                if (i < 2)
+                {
+                    for (int j = 0; j < 3; j++)
+                    {
+                        Console.Write("          ║         ");
+                        if (j < 2) Console.Write(" ");
+                    }
+                    Console.WriteLine();
+                }
+            }
+
+            Console.WriteLine("\n═ = Horizontal connection (East-West)");
+            Console.WriteLine("║ = Vertical connection (North-South)\n");
+        }
         
     }
 }
