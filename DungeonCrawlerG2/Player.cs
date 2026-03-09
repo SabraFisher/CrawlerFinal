@@ -25,12 +25,6 @@ namespace DungeonCrawlerG2
             XPToNextLevel = 10;
         }
 
-        public void Move(Room newRoom)
-        {
-            CurrentRoom = newRoom;
-            Console.WriteLine($"{Name} moved to {CurrentRoom.Name}");
-        }
-
         public void MoveToRoom(int index)
         {
             if (index < 0 || index >= CurrentRoom.ConnectedRooms.Count)
