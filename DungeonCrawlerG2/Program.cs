@@ -62,7 +62,6 @@ namespace DungeonCrawlerG2
                         {
                             player.MoveToRoom(roomChoice);
 
-                            // 50% chance of enemy encounter
                             if (rand.Next(2) == 1)
                             {
                                 StartCombat(player);
@@ -131,7 +130,6 @@ namespace DungeonCrawlerG2
                     {
                         goblin.OnDefeated(player);
 
-                        // 25% loot drop chance
                         if (rand.Next(4) == 0)
                         {
                             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -148,6 +146,13 @@ namespace DungeonCrawlerG2
                 }
                 else if (combatChoice == "2")
                 {
+                    if (player.Inventory.Count == 0)
+                    {
+                        Console.WriteLine("You have no items.");
+                        goblin.AttackPlayer(player);
+                        continue;
+                    }
+
                     player.ShowInventory();
 
                     Console.WriteLine("\nEnter item number to use:");
