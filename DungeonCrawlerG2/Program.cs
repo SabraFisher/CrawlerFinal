@@ -16,8 +16,6 @@ namespace DungeonCrawlerG2
 
             Player player = new Player("Hero", 30, 5, dungeonMap.Rooms[1, 1]);
 
-            player.PickUpItem(new Item("Health Potion", "Consumable", 10));
-
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine($"\nYou start in the {player.CurrentRoom.Name}");
             Console.ResetColor();
@@ -64,7 +62,7 @@ namespace DungeonCrawlerG2
                         {
                             player.MoveToRoom(roomChoice);
 
-                            // 50% chance of encounter
+                            // 50% chance of enemy encounter
                             if (rand.Next(2) == 1)
                             {
                                 StartCombat(player);
@@ -132,6 +130,17 @@ namespace DungeonCrawlerG2
                     if (!goblin.IsAlive())
                     {
                         goblin.OnDefeated(player);
+
+                        // 25% loot drop chance
+                        if (rand.Next(4) == 0)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.WriteLine("\nThe goblin dropped a Health Potion!");
+                            Console.ResetColor();
+
+                            player.PickUpItem(new Item("Health Potion", "Consumable", 10));
+                        }
+
                         break;
                     }
 
