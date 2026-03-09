@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Threading;
 
 namespace DungeonCrawlerG2
 {
     internal class Program
     {
+        static Random rand = new Random();
+
         static void Main(string[] args)
         {
             TitleScreen();
@@ -18,8 +21,6 @@ namespace DungeonCrawlerG2
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine($"\nYou start in the {player.CurrentRoom.Name}");
             Console.ResetColor();
-
-            Creature goblin = new Creature("Goblin", 15, 3, 5);
 
             while (true)
             {
@@ -36,9 +37,8 @@ namespace DungeonCrawlerG2
 
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("1 - Move");
-                Console.WriteLine("2 - Fight Goblin");
-                Console.WriteLine("3 - Show Inventory");
-                Console.WriteLine("4 - Flee");
+                Console.WriteLine("2 - Show Inventory");
+                Console.WriteLine("3 - Flee");
                 Console.ResetColor();
 
                 Console.WriteLine("exit - Quit");
@@ -54,6 +54,7 @@ namespace DungeonCrawlerG2
                 switch (input)
                 {
                     case "1":
+
                         player.ShowAvailableRooms();
 
                         Console.WriteLine("\nEnter the number of the room to move to:");
@@ -62,103 +63,29 @@ namespace DungeonCrawlerG2
                         if (int.TryParse(roomInput, out int roomChoice))
                         {
                             player.MoveToRoom(roomChoice);
+
+                            // 50% chance of encounter
+                            if (rand.Next(2) == 1)
+                            {
+                                StartCombat(player);
+                            }
+                            else
+                            {
+                                Console.WriteLine("\nThe room is quiet...");
+                            }
                         }
                         else
                         {
                             Console.WriteLine("Invalid input.");
                         }
+
                         break;
 
                     case "2":
-                        Console.WriteLine("\nCombat begins!");
-
-                        while (goblin.IsAlive() && player.IsAlive())
-                        {
-                            Console.Clear();
-
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("=================================");
-                            Console.WriteLine("               COMBAT");
-                            Console.WriteLine("=================================");
-                            Console.ResetColor();
-
-                            Console.WriteLine($"Hero   {GetHealthBar(player.Health, player.MaxHealth)} {player.Health}/{player.MaxHealth} HP");
-                            Console.WriteLine($"Goblin {GetHealthBar(goblin.Health, 15)} {goblin.Health}/15 HP");
-
-                            Console.WriteLine("\nChoose your action:");
-
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("1 - Attack");
-                            Console.WriteLine("2 - Use Item");
-                            Console.WriteLine("3 - Flee");
-                            Console.ResetColor();
-
-                            string combatChoice = Console.ReadLine();
-
-                            if (combatChoice == "1")
-                            {
-                                player.doDamage(goblin);
-
-                                if (!goblin.IsAlive())
-                                {
-                                    goblin.OnDefeated(player);
-                                    break;
-                                }
-
-                                goblin.AttackPlayer(player);
-                            }
-                            else if (combatChoice == "2")
-                            {
-                                player.ShowInventory();
-
-                                Console.WriteLine("\nEnter item number to use:");
-                                string itemInput = Console.ReadLine();
-
-                                if (int.TryParse(itemInput, out int itemIndex))
-                                {
-                                    player.UseItem(itemIndex);
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Invalid item.");
-                                }
-
-                                goblin.AttackPlayer(player);
-                            }
-                            else if (combatChoice == "3")
-                            {
-                                if (player.Flee())
-                                {
-                                    break;
-                                }
-
-                                goblin.AttackPlayer(player);
-                            }
-                            else
-                            {
-                                Console.WriteLine("Invalid action.");
-                            }
-
-                            if (!player.IsAlive())
-                            {
-                                Console.ForegroundColor = ConsoleColor.DarkRed;
-                                Console.WriteLine("\nYou have died. Game over.");
-                                Console.ResetColor();
-                                return;
-                            }
-
-                            Console.WriteLine("\nPress any key for next turn...");
-                            Console.ReadKey();
-                        }
-
-                        goblin = new Creature("Goblin", 15, 3, 5);
-                        break;
-
-                    case "3":
                         player.ShowInventory();
                         break;
 
-                    case "4":
+                    case "3":
                         player.Flee();
                         break;
 
@@ -169,18 +96,100 @@ namespace DungeonCrawlerG2
             }
         }
 
+        static void StartCombat(Player player)
+        {
+            Creature goblin = new Creature("Goblin", 15, 3, 5);
+
+            Console.WriteLine("\nA Goblin appears!");
+
+            while (goblin.IsAlive() && player.IsAlive())
+            {
+                Console.Clear();
+
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("=================================");
+                Console.WriteLine("               COMBAT");
+                Console.WriteLine("=================================");
+                Console.ResetColor();
+
+                Console.WriteLine($"Hero   {GetHealthBar(player.Health, player.MaxHealth)} {player.Health}/{player.MaxHealth} HP");
+                Console.WriteLine($"Goblin {GetHealthBar(goblin.Health, 15)} {goblin.Health}/15 HP");
+
+                Console.WriteLine("\nChoose your action:");
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("1 - Attack");
+                Console.WriteLine("2 - Use Item");
+                Console.WriteLine("3 - Flee");
+                Console.ResetColor();
+
+                string combatChoice = Console.ReadLine();
+
+                if (combatChoice == "1")
+                {
+                    player.doDamage(goblin);
+
+                    if (!goblin.IsAlive())
+                    {
+                        goblin.OnDefeated(player);
+                        break;
+                    }
+
+                    goblin.AttackPlayer(player);
+                }
+                else if (combatChoice == "2")
+                {
+                    player.ShowInventory();
+
+                    Console.WriteLine("\nEnter item number to use:");
+                    string itemInput = Console.ReadLine();
+
+                    if (int.TryParse(itemInput, out int itemIndex))
+                    {
+                        player.UseItem(itemIndex);
+                    }
+
+                    goblin.AttackPlayer(player);
+                }
+                else if (combatChoice == "3")
+                {
+                    if (player.Flee())
+                    {
+                        return;
+                    }
+
+                    goblin.AttackPlayer(player);
+                }
+
+                if (!player.IsAlive())
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("\nYou have died. Game over.");
+                    Console.ResetColor();
+                    Environment.Exit(0);
+                }
+
+                Console.WriteLine("\nPress any key for next turn...");
+                Console.ReadKey();
+            }
+        }
+
         static void TitleScreen()
         {
             Console.Clear();
 
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("===============================================");
-            Console.WriteLine("            DUNGEON CRAWLER");
+            Console.ResetColor();
+
+            TypeText("            DUNGEON CRAWLER\n", 40);
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("===============================================");
             Console.ResetColor();
 
             Console.WriteLine();
-            Console.WriteLine("           A Text Adventure Game");
+            TypeText("           A Text Adventure Game\n", 20);
             Console.WriteLine();
 
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -198,6 +207,15 @@ namespace DungeonCrawlerG2
 
             Console.ReadKey();
             Console.Clear();
+        }
+
+        static void TypeText(string text, int delay)
+        {
+            foreach (char c in text)
+            {
+                Console.Write(c);
+                Thread.Sleep(delay);
+            }
         }
 
         static string GetHealthBar(int current, int max)
