@@ -196,14 +196,14 @@ namespace DungeonCrawlerG2
             Console.WriteLine("===============================================");
             Console.ResetColor();
 
-            TypeText("            DUNGEON CRAWLER\n", 40);
+            TypeText("                 DUNGEON CRAWLER\n", 40);
 
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("===============================================");
             Console.ResetColor();
 
             Console.WriteLine();
-            TypeText("           A Text Adventure Game\n", 20);
+            TypeText("              A Text Adventure Game\n", 20);
             Console.WriteLine();
 
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -216,7 +216,7 @@ namespace DungeonCrawlerG2
 
             Console.WriteLine();
             Console.WriteLine("===============================================");
-            Console.WriteLine("        Press any key to begin...");
+            Console.WriteLine("            Press any key to begin...");
             Console.WriteLine("===============================================");
 
             Console.ReadKey();
