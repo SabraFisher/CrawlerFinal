@@ -11,7 +11,6 @@ namespace DungeonCrawlerG2
 
             Player player = new Player("Hero", 30, 5, dungeonMap.Rooms[1, 1]);
 
-            // Starter potion for testing
             player.PickUpItem(new Item("Health Potion", "Consumable", 10));
 
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -29,7 +28,7 @@ namespace DungeonCrawlerG2
                 Console.ResetColor();
 
                 Console.WriteLine($"Current Room: {player.CurrentRoom.Name}");
-                Console.WriteLine($"Player HP: {player.Health} | Level: {player.Level} | XP: {player.XP}/{player.XPToNextLevel}");
+                Console.WriteLine($"Player HP: {player.Health}/{player.MaxHealth} | Level: {player.Level} | XP: {player.XP}/{player.XPToNextLevel}");
 
                 Console.WriteLine("\nChoose an action:");
 
@@ -81,8 +80,8 @@ namespace DungeonCrawlerG2
                             Console.WriteLine("=================================");
                             Console.ResetColor();
 
-                            Console.WriteLine($"Hero   {GetHealthBar(player.Health, 30)} {player.Health} HP");
-                            Console.WriteLine($"Goblin {GetHealthBar(goblin.Health, 15)} {goblin.Health} HP");
+                            Console.WriteLine($"Hero   {GetHealthBar(player.Health, player.MaxHealth)} {player.Health}/{player.MaxHealth} HP");
+                            Console.WriteLine($"Goblin {GetHealthBar(goblin.Health, 15)} {goblin.Health}/15 HP");
 
                             Console.WriteLine("\nChoose your action:");
 
@@ -150,9 +149,7 @@ namespace DungeonCrawlerG2
                             Console.ReadKey();
                         }
 
-                        // Reset goblin for testing future fights
                         goblin = new Creature("Goblin", 15, 3, 5);
-
                         break;
 
                     case "3":
@@ -173,7 +170,12 @@ namespace DungeonCrawlerG2
         static string GetHealthBar(int current, int max)
         {
             int barLength = 10;
-            int filled = (int)Math.Round((double)current / max * barLength);
+
+            double ratio = (double)current / max;
+            int filled = (int)Math.Round(ratio * barLength);
+
+            if (filled < 0) filled = 0;
+            if (filled > barLength) filled = barLength;
 
             return "[" + new string('#', filled) + new string('-', barLength - filled) + "]";
         }

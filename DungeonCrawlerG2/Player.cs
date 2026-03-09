@@ -14,6 +14,8 @@ namespace DungeonCrawlerG2
         public int XP { get; set; }
         public int XPToNextLevel { get; set; }
 
+        public int MaxHealth { get; set; }
+
         public Player(string name, int health, int attackDamage, Room startingRoom)
             : base(name, health, attackDamage)
         {
@@ -23,6 +25,8 @@ namespace DungeonCrawlerG2
             Level = 1;
             XP = 0;
             XPToNextLevel = 10;
+
+            MaxHealth = health;
         }
 
         public void MoveToRoom(int index)
@@ -117,12 +121,14 @@ namespace DungeonCrawlerG2
             XP = 0;
             XPToNextLevel += 10;
 
-            Health += 5;
+            MaxHealth += 5;
+            Health = MaxHealth;
+
             AttackDamage += 2;
 
-            Console.WriteLine($"\n🎉 {Name} leveled up!");
+            Console.WriteLine($"\n*** {Name} LEVELED UP! ***");
             Console.WriteLine($"Level: {Level}");
-            Console.WriteLine($"Health increased to {Health}");
+            Console.WriteLine($"Max Health increased to {MaxHealth}");
             Console.WriteLine($"Attack increased to {AttackDamage}\n");
         }
     }
