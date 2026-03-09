@@ -5,14 +5,24 @@ namespace DungeonCrawlerG2
 {
     public class Player : Character
     {
+        private static Random rand = new Random();
+
         public Room CurrentRoom { get; set; }
         public List<Item> Inventory { get; set; }
+
+        public int Level { get; set; }
+        public int XP { get; set; }
+        public int XPToNextLevel { get; set; }
 
         public Player(string name, int health, int attackDamage, Room startingRoom)
             : base(name, health, attackDamage)
         {
             CurrentRoom = startingRoom;
             Inventory = new List<Item>();
+
+            Level = 1;
+            XP = 0;
+            XPToNextLevel = 10;
         }
 
         public void Move(Room newRoom)
@@ -67,7 +77,6 @@ namespace DungeonCrawlerG2
 
         public bool Flee()
         {
-            Random rand = new Random();
             int chance = rand.Next(0, 2);
 
             if (chance == 1)
@@ -78,6 +87,32 @@ namespace DungeonCrawlerG2
 
             Console.WriteLine($"{Name} failed to flee!");
             return false;
+        }
+
+        public void GainXP(int amount)
+        {
+            XP += amount;
+            Console.WriteLine($"{Name} gained {amount} XP!");
+
+            if (XP >= XPToNextLevel)
+            {
+                LevelUp();
+            }
+        }
+
+        private void LevelUp()
+        {
+            Level++;
+            XP = 0;
+            XPToNextLevel += 10;
+
+            Health += 5;
+            AttackDamage += 2;
+
+            Console.WriteLine($"\n🎉 {Name} leveled up!");
+            Console.WriteLine($"Level: {Level}");
+            Console.WriteLine($"Health increased to {Health}");
+            Console.WriteLine($"Attack increased to {AttackDamage}\n");
         }
     }
 }
