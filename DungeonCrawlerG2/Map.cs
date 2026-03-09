@@ -34,7 +34,7 @@ namespace DungeonCrawlerG2
         public void DisplayMap()
         {
             Console.WriteLine("\n╔═══════════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║                        DUNGEON CRAWLER MAP                            ║");
+            Console.WriteLine("║                         DUNGEON CRAWLER MAP                            ║");
             Console.WriteLine("╚═══════════════════════════════════════════════════════════════════════╝\n");
 
             for (int i = 0; i < 3; i++)
@@ -50,9 +50,15 @@ namespace DungeonCrawlerG2
                 // Room names (centered)
                 for (int j = 0; j < 3; j++)
                 {
+                    const int cellWidth = 19;
                     string roomName = Rooms[i, j].Name;
-                    int padding = (19 - roomName.Length) / 2;
-                    Console.Write($"│{new string(' ', padding)}{roomName}{new string(' ', 19 - padding - roomName.Length)}│");
+                    string displayName = roomName.Length > cellWidth 
+                        ? roomName.Substring(0, cellWidth) 
+                        : roomName;
+
+                    int padding = (cellWidth - displayName.Length) / 2;
+                    Console.Write($"│{new string(' ', padding)}{displayName}" +
+                        $"{new string(' ', cellWidth - padding - displayName.Length)}│");
                     
                     // Show horizontal connection to the right
                     if (j < 2)
