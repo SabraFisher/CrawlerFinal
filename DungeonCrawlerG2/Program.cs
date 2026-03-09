@@ -6,31 +6,40 @@ namespace DungeonCrawlerG2
     {
         static void Main(string[] args)
         {
-            // Create the dungeon map and initialize rooms
             Map dungeonMap = new Map();
             dungeonMap.DisplayMap();
 
-            // Create the player starting in the Great Hall
             Player player = new Player("Hero", 30, 5, dungeonMap.Rooms[1, 1]);
 
-            // Give player a test item
+            // Starter potion for testing
             player.PickUpItem(new Item("Health Potion", "Consumable", 10));
 
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine($"\nYou start in the {player.CurrentRoom.Name}");
+            Console.ResetColor();
 
-            // Create a test creature
             Creature goblin = new Creature("Goblin", 15, 3, 5);
 
             while (true)
             {
-                Console.WriteLine($"\nCurrent Room: {player.CurrentRoom.Name}");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("\n=================================");
+                Console.WriteLine("             MAIN MENU");
+                Console.WriteLine("=================================");
+                Console.ResetColor();
+
+                Console.WriteLine($"Current Room: {player.CurrentRoom.Name}");
                 Console.WriteLine($"Player HP: {player.Health} | Level: {player.Level} | XP: {player.XP}/{player.XPToNextLevel}");
 
                 Console.WriteLine("\nChoose an action:");
+
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("1 - Move");
                 Console.WriteLine("2 - Fight Goblin");
                 Console.WriteLine("3 - Show Inventory");
                 Console.WriteLine("4 - Flee");
+                Console.ResetColor();
+
                 Console.WriteLine("exit - Quit");
 
                 string input = Console.ReadLine();
@@ -64,10 +73,24 @@ namespace DungeonCrawlerG2
 
                         while (goblin.IsAlive() && player.IsAlive())
                         {
+                            Console.Clear();
+
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("=================================");
+                            Console.WriteLine("               COMBAT");
+                            Console.WriteLine("=================================");
+                            Console.ResetColor();
+
+                            Console.WriteLine($"Hero   {GetHealthBar(player.Health, 30)} {player.Health} HP");
+                            Console.WriteLine($"Goblin {GetHealthBar(goblin.Health, 15)} {goblin.Health} HP");
+
                             Console.WriteLine("\nChoose your action:");
+
+                            Console.ForegroundColor = ConsoleColor.Green;
                             Console.WriteLine("1 - Attack");
                             Console.WriteLine("2 - Use Item");
                             Console.WriteLine("3 - Flee");
+                            Console.ResetColor();
 
                             string combatChoice = Console.ReadLine();
 
@@ -87,7 +110,7 @@ namespace DungeonCrawlerG2
                             {
                                 player.ShowInventory();
 
-                                Console.WriteLine("Enter item number to use:");
+                                Console.WriteLine("\nEnter item number to use:");
                                 string itemInput = Console.ReadLine();
 
                                 if (int.TryParse(itemInput, out int itemIndex))
@@ -117,12 +140,17 @@ namespace DungeonCrawlerG2
 
                             if (!player.IsAlive())
                             {
+                                Console.ForegroundColor = ConsoleColor.DarkRed;
                                 Console.WriteLine("\nYou have died. Game over.");
+                                Console.ResetColor();
                                 return;
                             }
+
+                            Console.WriteLine("\nPress any key for next turn...");
+                            Console.ReadKey();
                         }
 
-                        // Reset goblin so combat can be repeated
+                        // Reset goblin for testing future fights
                         goblin = new Creature("Goblin", 15, 3, 5);
 
                         break;
@@ -140,6 +168,14 @@ namespace DungeonCrawlerG2
                         break;
                 }
             }
+        }
+
+        static string GetHealthBar(int current, int max)
+        {
+            int barLength = 10;
+            int filled = (int)Math.Round((double)current / max * barLength);
+
+            return "[" + new string('#', filled) + new string('-', barLength - filled) + "]";
         }
     }
 }
