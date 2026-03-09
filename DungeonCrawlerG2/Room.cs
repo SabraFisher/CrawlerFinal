@@ -8,18 +8,21 @@ namespace DungeonCrawlerG2
 {
     public class Room
     {
-        public string Name { get; set; }
+        // Each room has a name and a list of connected rooms
+        public string RoomName { get; set; }
         public List<Room> ConnectedRooms { get; set; }
 
-        public Room(string name)
+        // Constructor to initialize the room with a name and an empty list of connected rooms
+        public Room(string roomName)
         {
-            Name = name;
+            RoomName = roomName;
             ConnectedRooms = new List<Room>();
         }
-
+        
+        // Override ToString() for easy display of room information
         public override string ToString()
         {
-            return Name;
+            return RoomName;
         }
     }
 }
