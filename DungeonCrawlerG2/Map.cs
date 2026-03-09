@@ -31,6 +31,7 @@ namespace DungeonCrawlerG2
             }
         }
 
+        // method to display the map in a simple text format
         public void DisplayMap()
         {
             Console.WriteLine("\n╔═══════════════════════════════════════════════════════════════════════╗");
@@ -51,7 +52,7 @@ namespace DungeonCrawlerG2
                 for (int j = 0; j < 3; j++)
                 {
                     const int cellWidth = 19;
-                    string roomName = Rooms[i, j].Name;
+                    string roomName = Rooms[i, j].RoomName;
                     string displayName = roomName.Length > cellWidth 
                         ? roomName.Substring(0, cellWidth) 
                         : roomName;
@@ -87,7 +88,7 @@ namespace DungeonCrawlerG2
                     Console.WriteLine();
                 }
             }
-
+            // Legend
             Console.WriteLine("\n═ = Horizontal connection (East-West)");
             Console.WriteLine("║ = Vertical connection (North-South)\n");
         }

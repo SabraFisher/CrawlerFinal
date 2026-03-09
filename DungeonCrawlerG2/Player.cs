@@ -38,7 +38,7 @@ namespace DungeonCrawlerG2
             }
 
             CurrentRoom = CurrentRoom.ConnectedRooms[index];
-            Console.WriteLine($"You moved to {CurrentRoom.Name}");
+            Console.WriteLine($"You moved to {CurrentRoom.RoomName}");
         }
 
         public void ShowAvailableRooms()
@@ -47,7 +47,7 @@ namespace DungeonCrawlerG2
 
             for (int i = 0; i < CurrentRoom.ConnectedRooms.Count; i++)
             {
-                Console.WriteLine($"{i}: {CurrentRoom.ConnectedRooms[i].Name}");
+                Console.WriteLine($"{i}: {CurrentRoom.ConnectedRooms[i].RoomName}");
             }
         }
 
