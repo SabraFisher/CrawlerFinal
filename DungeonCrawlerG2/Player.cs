@@ -87,11 +87,7 @@ namespace DungeonCrawlerG2
 
             Console.WriteLine($"{Name} used {item.Name}");
 
-            if (item.Type == "Consumable")
-            {
-                Health += item.Value;
-                Console.WriteLine($"{Name} restored {item.Value} health! Current HP: {Health}");
-            }
+            item.Use(this);
 
             Inventory.RemoveAt(index);
         }
