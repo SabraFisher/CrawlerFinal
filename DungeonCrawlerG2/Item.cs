@@ -20,6 +20,7 @@ namespace DungeonCrawlerG2
             if (Type == "Consumable")
             {
                 player.Health += Value;
+
                 Console.WriteLine($"{player.Name} restored {Value} health!");
                 Console.WriteLine($"Current HP: {player.Health}");
             }

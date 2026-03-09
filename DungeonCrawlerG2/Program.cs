@@ -13,6 +13,9 @@ namespace DungeonCrawlerG2
             // Create the player starting in the Great Hall
             Player player = new Player("Hero", 30, 5, dungeonMap.Rooms[1, 1]);
 
+            // Give player a test item
+            player.PickUpItem(new Item("Health Potion", "Consumable", 10));
+
             Console.WriteLine($"\nYou start in the {player.CurrentRoom.Name}");
 
             // Create a test creature
@@ -42,6 +45,7 @@ namespace DungeonCrawlerG2
                 {
                     case "1":
                         player.ShowAvailableRooms();
+
                         Console.WriteLine("\nEnter the number of the room to move to:");
                         string roomInput = Console.ReadLine();
 
@@ -60,15 +64,56 @@ namespace DungeonCrawlerG2
 
                         while (goblin.IsAlive() && player.IsAlive())
                         {
-                            player.doDamage(goblin);
+                            Console.WriteLine("\nChoose your action:");
+                            Console.WriteLine("1 - Attack");
+                            Console.WriteLine("2 - Use Item");
+                            Console.WriteLine("3 - Flee");
 
-                            if (!goblin.IsAlive())
+                            string combatChoice = Console.ReadLine();
+
+                            if (combatChoice == "1")
                             {
-                                goblin.OnDefeated(player);
-                                break;
-                            }
+                                player.doDamage(goblin);
 
-                            goblin.AttackPlayer(player);
+                                if (!goblin.IsAlive())
+                                {
+                                    goblin.OnDefeated(player);
+                                    break;
+                                }
+
+                                goblin.AttackPlayer(player);
+                            }
+                            else if (combatChoice == "2")
+                            {
+                                player.ShowInventory();
+
+                                Console.WriteLine("Enter item number to use:");
+                                string itemInput = Console.ReadLine();
+
+                                if (int.TryParse(itemInput, out int itemIndex))
+                                {
+                                    player.UseItem(itemIndex);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Invalid item.");
+                                }
+
+                                goblin.AttackPlayer(player);
+                            }
+                            else if (combatChoice == "3")
+                            {
+                                if (player.Flee())
+                                {
+                                    break;
+                                }
+
+                                goblin.AttackPlayer(player);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid action.");
+                            }
 
                             if (!player.IsAlive())
                             {
@@ -77,7 +122,7 @@ namespace DungeonCrawlerG2
                             }
                         }
 
-                        // reset goblin so you can fight again
+                        // Reset goblin so combat can be repeated
                         goblin = new Creature("Goblin", 15, 3, 5);
 
                         break;
