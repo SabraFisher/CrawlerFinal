@@ -6,6 +6,8 @@ namespace DungeonCrawlerG2
     {
         static void Main(string[] args)
         {
+            TitleScreen();
+
             Map dungeonMap = new Map();
             dungeonMap.DisplayMap();
 
@@ -165,6 +167,37 @@ namespace DungeonCrawlerG2
                         break;
                 }
             }
+        }
+
+        static void TitleScreen()
+        {
+            Console.Clear();
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("===============================================");
+            Console.WriteLine("            DUNGEON CRAWLER");
+            Console.WriteLine("===============================================");
+            Console.ResetColor();
+
+            Console.WriteLine();
+            Console.WriteLine("           A Text Adventure Game");
+            Console.WriteLine();
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Developed By:");
+            Console.ResetColor();
+
+            Console.WriteLine(" - Aaron Bataeff");
+            Console.WriteLine(" - Porter Milloy");
+            Console.WriteLine(" - Sabra Fisher");
+
+            Console.WriteLine();
+            Console.WriteLine("===============================================");
+            Console.WriteLine("        Press any key to begin...");
+            Console.WriteLine("===============================================");
+
+            Console.ReadKey();
+            Console.Clear();
         }
 
         static string GetHealthBar(int current, int max)
