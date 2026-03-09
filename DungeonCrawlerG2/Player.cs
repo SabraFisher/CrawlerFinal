@@ -1,13 +1,135 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DungeonCrawlerG2
 {
     public class Player : Character
     {
+        private static Random rand = new Random();
 
+        public Room CurrentRoom { get; set; }
+        public List<Item> Inventory { get; set; }
+
+        public int Level { get; set; }
+        public int XP { get; set; }
+        public int XPToNextLevel { get; set; }
+
+        public int MaxHealth { get; set; }
+
+        public Player(string name, int health, int attackDamage, Room startingRoom)
+            : base(name, health, attackDamage)
+        {
+            CurrentRoom = startingRoom;
+            Inventory = new List<Item>();
+
+            Level = 1;
+            XP = 0;
+            XPToNextLevel = 10;
+
+            MaxHealth = health;
+        }
+
+        public void MoveToRoom(int index)
+        {
+            if (index < 0 || index >= CurrentRoom.ConnectedRooms.Count)
+            {
+                Console.WriteLine("You can't move that way.");
+                return;
+            }
+
+            CurrentRoom = CurrentRoom.ConnectedRooms[index];
+            Console.WriteLine($"You moved to {CurrentRoom.Name}");
+        }
+
+        public void ShowAvailableRooms()
+        {
+            Console.WriteLine("\nYou can move to:");
+
+            for (int i = 0; i < CurrentRoom.ConnectedRooms.Count; i++)
+            {
+                Console.WriteLine($"{i}: {CurrentRoom.ConnectedRooms[i].Name}");
+            }
+        }
+
+        public void PickUpItem(Item item)
+        {
+            Inventory.Add(item);
+            Console.WriteLine($"{Name} picked up {item.Name}");
+        }
+
+        public void ShowInventory()
+        {
+            Console.WriteLine("\nInventory:");
+
+            if (Inventory.Count == 0)
+            {
+                Console.WriteLine("Inventory is empty.");
+                return;
+            }
+
+            for (int i = 0; i < Inventory.Count; i++)
+            {
+                Console.WriteLine($"{i}: {Inventory[i].Name}");
+            }
+        }
+
+        public void UseItem(int index)
+        {
+            if (index < 0 || index >= Inventory.Count)
+            {
+                Console.WriteLine("Invalid item selection.");
+                return;
+            }
+
+            Item item = Inventory[index];
+
+            Console.WriteLine($"{Name} used {item.Name}");
+
+            item.Use(this);
+
+            Inventory.RemoveAt(index);
+        }
+
+        public bool Flee()
+        {
+            int chance = rand.Next(0, 2);
+
+            if (chance == 1)
+            {
+                Console.WriteLine($"{Name} successfully fled!");
+                return true;
+            }
+
+            Console.WriteLine($"{Name} failed to flee!");
+            return false;
+        }
+
+        public void GainXP(int amount)
+        {
+            XP += amount;
+            Console.WriteLine($"{Name} gained {amount} XP!");
+
+            if (XP >= XPToNextLevel)
+            {
+                LevelUp();
+            }
+        }
+
+        private void LevelUp()
+        {
+            Level++;
+            XP = 0;
+            XPToNextLevel += 10;
+
+            MaxHealth += 5;
+            Health = MaxHealth;
+
+            AttackDamage += 2;
+
+            Console.WriteLine($"\n*** {Name} LEVELED UP! ***");
+            Console.WriteLine($"Level: {Level}");
+            Console.WriteLine($"Max Health increased to {MaxHealth}");
+            Console.WriteLine($"Attack increased to {AttackDamage}\n");
+        }
     }
 }
