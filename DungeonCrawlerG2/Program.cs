@@ -4,8 +4,9 @@
     {
         static void Main(string[] args)
         {
+            // Create the dungeon map and initialize rooms
             Map dungeonMap = new Map();
-
+            
             // Display the map layout
             Console.WriteLine("=== Dungeon Map (3x3 Grid) ===\n");
             for (int i = 0; i < 3; i++)

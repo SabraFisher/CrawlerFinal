@@ -14,9 +14,9 @@ namespace DungeonCrawlerG2
         {
             Rooms = new Room[3, 3]
             {
-                { new Room("Entrance Hall"), new Room("Armory"), new Room("Library") },
-                { new Room("Dining Room"), new Room("Great Hall"), new Room("Kitchen") },
-                { new Room("Bedroom"), new Room("Study"), new Room("Treasure Room") }
+                { new Room("Entrance"), new Room("Armory"), new Room("Library") },
+                { new Room("Dining Room"), new Room("Great Hall"), new Room("Alchemy Lab") },
+                { new Room("Kitchen"), new Room("Treasure Room"), new Room("Sleeping Quarters") }
             };
             // connect the rooms (for simplicity, we will just connect adjacent rooms)
             for (int i = 0; i < 3; i++)
