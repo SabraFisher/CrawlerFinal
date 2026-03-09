@@ -69,10 +69,31 @@ namespace DungeonCrawlerG2
                 return;
             }
 
-            foreach (Item item in Inventory)
+            for (int i = 0; i < Inventory.Count; i++)
             {
-                Console.WriteLine($"- {item.Name}");
+                Console.WriteLine($"{i}: {Inventory[i].Name}");
             }
+        }
+
+        public void UseItem(int index)
+        {
+            if (index < 0 || index >= Inventory.Count)
+            {
+                Console.WriteLine("Invalid item selection.");
+                return;
+            }
+
+            Item item = Inventory[index];
+
+            Console.WriteLine($"{Name} used {item.Name}");
+
+            if (item.Type == "Consumable")
+            {
+                Health += item.Value;
+                Console.WriteLine($"{Name} restored {item.Value} health! Current HP: {Health}");
+            }
+
+            Inventory.RemoveAt(index);
         }
 
         public bool Flee()
