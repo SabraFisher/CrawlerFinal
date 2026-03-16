@@ -136,7 +136,7 @@ namespace DungeonCrawlerG2
                             Console.WriteLine("\nThe goblin dropped a Health Potion!");
                             Console.ResetColor();
 
-                            player.PickUpItem(new Item("Health Potion", "Consumable", 10));
+                            player.PickUpItem(new Item("Health Potion", "A red potion that heals 10 hp", "Consumable", 10));
                         }
 
                         break;
