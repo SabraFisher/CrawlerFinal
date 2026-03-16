@@ -17,7 +17,7 @@ namespace DungeonCrawlerG2
             Player player = new Player("Hero", 30, 5, dungeonMap.Rooms[1, 1]);
 
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine($"\nYou start in the {player.CurrentRoom.Name}");
+            Console.WriteLine($"\nYou start in the {player.CurrentRoom.RoomName}");
             Console.ResetColor();
 
             while (true)
@@ -28,7 +28,7 @@ namespace DungeonCrawlerG2
                 Console.WriteLine("=================================");
                 Console.ResetColor();
 
-                Console.WriteLine($"Current Room: {player.CurrentRoom.Name}");
+                Console.WriteLine($"Current Room: {player.CurrentRoom.RoomName}");
                 Console.WriteLine($"Player HP: {player.Health}/{player.MaxHealth} | Level: {player.Level} | XP: {player.XP}/{player.XPToNextLevel}");
 
                 Console.WriteLine("\nChoose an action:");
@@ -196,14 +196,14 @@ namespace DungeonCrawlerG2
             Console.WriteLine("===============================================");
             Console.ResetColor();
 
-            TypeText("            DUNGEON CRAWLER\n", 40);
+            TypeText("                 DUNGEON CRAWLER\n", 40);
 
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("===============================================");
             Console.ResetColor();
 
             Console.WriteLine();
-            TypeText("           A Text Adventure Game\n", 20);
+            TypeText("              A Text Adventure Game\n", 20);
             Console.WriteLine();
 
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -216,7 +216,7 @@ namespace DungeonCrawlerG2
 
             Console.WriteLine();
             Console.WriteLine("===============================================");
-            Console.WriteLine("        Press any key to begin...");
+            Console.WriteLine("            Press any key to begin...");
             Console.WriteLine("===============================================");
 
             Console.ReadKey();
