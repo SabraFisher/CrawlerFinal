@@ -235,8 +235,6 @@ namespace DungeonCrawlerG2
                     {
                         player.UseItem(itemIndex);
                     }
-                    Console.WriteLine("Press enter to continue...");
-                    Console.ReadKey();
 
                 }
                 else if (combatChoice == "3")
@@ -333,8 +331,6 @@ namespace DungeonCrawlerG2
                     {
                         player.UseItem(itemIndex);
                     }
-                    Console.WriteLine("Press enter to continue...");
-                    Console.ReadKey();
 
                 }
                 
